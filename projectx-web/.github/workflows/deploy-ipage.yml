@@ -24,13 +24,17 @@ jobs:
     - name: Build
       run: npm run build
     
-    - name: Deploy to iPage via SFTP
-      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+    - name: Deploy to iPage via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        username: ${{ secrets.IPAGE_FTP_USERNAME }}
         server: ftp.theprojectx.co
-        port: 22  # Standard SFTP port
-        local_path: ./out/*
-        remote_path: /
+        username: ${{ secrets.IPAGE_FTP_USERNAME }}
         password: ${{ secrets.IPAGE_FTP_PASSWORD }}
-        sftpArgs: '-o StrictHostKeyChecking=no'
+        port: 21
+        protocol: ftp
+        local-dir: ./out/
+        server-dir: /
+        state-name: .ftp-deploy-sync-state.json
+        dangerous-clean-slate: true
+        passive: true
+        timeout: 60000
