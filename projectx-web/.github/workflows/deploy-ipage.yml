@@ -31,9 +31,10 @@ jobs:
         username: ${{ secrets.IPAGE_FTP_USERNAME }}
         password: ${{ secrets.IPAGE_FTP_PASSWORD }}
         local-dir: ./out/
-        server-dir: ./theprojectx.co/
-        dangerous-clean-slate: true
-        protocol: ftp
-        port: 21
-        timeout: 120000
-        security: loose
+        server-dir: /theprojectx.co/
+        state-name: .ftp-deploy-sync-state.json
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          filestore/**
