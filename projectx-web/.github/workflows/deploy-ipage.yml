@@ -27,14 +27,13 @@ jobs:
     - name: Deploy to iPage via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.IPAGE_FTP_SERVER }}
+        server: ftp.theprojectx.co
         username: ${{ secrets.IPAGE_FTP_USERNAME }}
         password: ${{ secrets.IPAGE_FTP_PASSWORD }}
         local-dir: ./out/
-        server-dir: /theprojectx.co/
+        server-dir: /
+        protocol: ftp
+        port: 21
         state-name: .ftp-deploy-sync-state.json
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          filestore/**
+        log-level: verbose
+        passive: true
