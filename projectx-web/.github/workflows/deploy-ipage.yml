@@ -25,15 +25,12 @@ jobs:
       run: npm run build
     
     - name: Deploy to iPage via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
       with:
-        server: ftp.theprojectx.co
-        username: ${{ secrets.IPAGE_FTP_USERNAME }}
-        password: ${{ secrets.IPAGE_FTP_PASSWORD }}
-        local-dir: ./out/
-        server-dir: /
-        protocol: ftp
-        port: 21
-        state-name: .ftp-deploy-sync-state.json
-        log-level: verbose
-        passive: true
+        ftp_host: ftp.theprojectx.co
+        ftp_username: ${{ secrets.IPAGE_FTP_USERNAME }}
+        ftp_password: ${{ secrets.IPAGE_FTP_PASSWORD }}
+        local_source_dir: ./out
+        dist_target_dir: /
+        delete: true
+        exclude: "'^.git/'"
