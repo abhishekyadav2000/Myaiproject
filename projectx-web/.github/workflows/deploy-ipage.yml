@@ -1,0 +1,38 @@
+name: Deploy to iPage
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./projectx-web
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: './projectx-web/package-lock.json'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build
+      run: npm run build
+    
+    - name: Deploy to iPage via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.IPAGE_FTP_SERVER }}
+        username: ${{ secrets.IPAGE_FTP_USERNAME }}
+        password: ${{ secrets.IPAGE_FTP_PASSWORD }}
+        local-dir: ./projectx-web/out/
+        server-dir: ${{ secrets.IPAGE_FTP_SERVER_DIR }}
