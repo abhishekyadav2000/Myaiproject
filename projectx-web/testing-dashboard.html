@@ -172,8 +172,8 @@
 
         <div style="text-align: center; margin: 2rem 0;">
             <button class="btn" onclick="checkServer()">🔍 Check Server Status</button>
-            <a href="http://localhost:3000" target="_blank" class="btn">🏠 Open Landing Page</a>
-            <a href="http://localhost:3000/kits" target="_blank" class="btn">📦 Open Kits Page</a>
+            <a id="homeLink" href="#" target="_blank" class="btn">🏠 Open Landing Page</a>
+            <a id="kitsLink" href="#" target="_blank" class="btn">📦 Open Kits Page</a>
         </div>
 
         <div class="grid">
@@ -301,14 +301,30 @@
         async function checkServer() {
             const statusBox = document.getElementById('statusBox');
             statusBox.innerHTML = '<h2>🔍 Checking server...</h2><p>Please wait...</p>';
+            const ports = [3000, 3001];
+            let okUrl = null;
             
             try {
-                const response = await fetch('http://localhost:3000');
-                if (response.ok) {
+                for (const p of ports) {
+                    try {
+                        const url = `http://localhost:${p}`;
+                        const res = await fetch(url, { mode: 'no-cors' });
+                        okUrl = url; // if fetch doesn't throw, assume reachable
+                        break;
+                    } catch (e) {
+                        // try next
+                    }
+                }
+
+                if (okUrl) {
+                    const home = document.getElementById('homeLink');
+                    const kits = document.getElementById('kitsLink');
+                    home.href = okUrl;
+                    kits.href = okUrl + '/kits';
                     statusBox.className = 'status-box ready';
                     statusBox.innerHTML = `
                         <h2>✅ Server is Running!</h2>
-                        <p>ProjectX website is live at <a href="http://localhost:3000" target="_blank" style="color: #22c55e; text-decoration: underline;">http://localhost:3000</a></p>
+                        <p>ProjectX website is live at <a href="${okUrl}" target="_blank" style="color: #22c55e; text-decoration: underline;">${okUrl}</a></p>
                         <p style="margin-top: 0.5rem;">You can now start testing!</p>
                     `;
                 } else {
