@@ -33,5 +33,5 @@ jobs:
         local-dir: ./out/
         dangerous-clean-slate: true
         server-dir: /
-        protocol: ftps
-        security: loose
+        port: 21
+        protocol: ftp
