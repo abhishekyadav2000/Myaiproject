@@ -35,4 +35,4 @@ jobs:
         username: ${{ secrets.IPAGE_FTP_USERNAME }}
         password: ${{ secrets.IPAGE_FTP_PASSWORD }}
         local-dir: ./projectx-web/out/
-        server-dir: ${{ secrets.IPAGE_FTP_SERVER_DIR }}
+        server-dir: ./theprojectx.co/
