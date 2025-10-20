@@ -24,22 +24,14 @@ jobs:
     - name: Build
       run: npm run build
     
-    - name: Install lftp
-      run: sudo apt-get install lftp
-
-    - name: Deploy to iPage via lftp
-      run: |
-        # Create a netrc file for authentication
-        echo "machine ftp.theprojectx.co
-        login ${{ secrets.IPAGE_FTP_USERNAME }}
-        password ${{ secrets.IPAGE_FTP_PASSWORD }}" > ~/.netrc
-        chmod 600 ~/.netrc
-        
-        # Use lftp to sync the files
-        lftp -c "
-        set ftp:ssl-allow no;
-        set ssl:verify-certificate no;
-        open ftp://ftp.theprojectx.co;
-        lcd ./out;
-        mirror --reverse --delete --verbose
-        "
+    - name: Deploy to iPage
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ftp.theprojectx.co
+        username: ${{ secrets.IPAGE_FTP_USERNAME }}
+        password: ${{ secrets.IPAGE_FTP_PASSWORD }}
+        local-dir: ./out/
+        dangerous-clean-slate: true
+        server-dir: /
+        protocol: ftps
+        security: loose
