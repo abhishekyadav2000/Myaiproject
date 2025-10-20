@@ -33,3 +33,7 @@ jobs:
         local-dir: ./out/
         server-dir: ./theprojectx.co/
         dangerous-clean-slate: true
+        protocol: ftp
+        port: 21
+        timeout: 120000
+        security: loose
