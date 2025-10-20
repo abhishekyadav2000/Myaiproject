@@ -24,17 +24,22 @@ jobs:
     - name: Build
       run: npm run build
     
-    - name: Deploy to iPage via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: ftp.theprojectx.co
-        username: ${{ secrets.IPAGE_FTP_USERNAME }}
-        password: ${{ secrets.IPAGE_FTP_PASSWORD }}
-        port: 21
-        protocol: ftp
-        local-dir: ./out/
-        server-dir: /
-        state-name: .ftp-deploy-sync-state.json
-        dangerous-clean-slate: true
-        passive: true
-        timeout: 60000
+    - name: Install lftp
+      run: sudo apt-get install -y lftp ncftp
+    
+    - name: Create netrc file
+      run: |
+        echo "machine ftp.theprojectx.co
+        login ${{ secrets.IPAGE_FTP_USERNAME }}
+        password ${{ secrets.IPAGE_FTP_PASSWORD }}" > ~/.netrc
+        chmod 600 ~/.netrc
+    
+    - name: Test FTP Connection
+      run: ncftp -u "${{ secrets.IPAGE_FTP_USERNAME }}" -p "${{ secrets.IPAGE_FTP_PASSWORD }}" ftp.theprojectx.co << EOF
+        quit
+        EOF
+    
+    - name: Deploy to iPage
+      run: |
+        cd out
+        find . -type f -exec ncftpput -R -v -u "${{ secrets.IPAGE_FTP_USERNAME }}" -p "${{ secrets.IPAGE_FTP_PASSWORD }}" ftp.theprojectx.co / {} \;
