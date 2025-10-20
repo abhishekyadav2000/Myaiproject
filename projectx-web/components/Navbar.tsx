@@ -34,12 +34,15 @@ export default function Navbar() {
         <div className="container-px pb-4 md:hidden">
           <div className="grid gap-2">
             <Link href="/kits" onClick={() => setOpen(false)}>Kits</Link>
-            <a href="/#programs" onClick={() => setOpen(false)}>Programs</a>
-            <a href="/#why" onClick={() => setOpen(false)}>Why ProjectX</a>
-            <a href="/#contact" onClick={() => setOpen(false)}
-               className="mt-2 rounded-xl2 bg-px-orange px-4 py-2 font-medium text-black shadow-soft">
+            <Link href="/#programs" onClick={() => setOpen(false)}>Programs</Link>
+            <Link href="/#why" onClick={() => setOpen(false)}>Why ProjectX</Link>
+            <Link
+              href="/#contact"
+              onClick={() => setOpen(false)}
+              className="mt-2 rounded-xl2 bg-px-orange px-4 py-2 font-medium text-black shadow-soft"
+            >
               Get a Demo
-            </a>
+            </Link>
           </div>
         </div>
       )}
