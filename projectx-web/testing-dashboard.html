@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProjectX - Browser Testing Checklist</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0A0A0B 0%, #1a1a1d 100%);
+            color: #F5F5F5;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #FF6A00;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        .status-box {
+            background: rgba(255, 106, 0, 0.1);
+            border: 2px solid #FF6A00;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .status-box.ready {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+        .status-box.waiting {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: #eab308;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: rgba(17, 17, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .card h2 {
+            color: #FF6A00;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .checklist {
+            list-style: none;
+        }
+        .checklist li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .btn {
+            display: inline-block;
+            background: #FF6A00;
+            color: #0A0A0B;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            background: #FF7A33;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #F5F5F5;
+        }
+        .btn-outline:hover {
+            border-color: #FF6A00;
+            background: rgba(255, 106, 0, 0.1);
+        }
+        .device-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .progress {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #FF6A00 0%, #FF9C66 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #0A0A0B;
+        }
+        .instructions {
+            background: rgba(255, 106, 0, 0.05);
+            border-left: 4px solid #FF6A00;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .instructions h3 {
+            color: #FF6A00;
+            margin-bottom: 0.5rem;
+        }
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #FF9C66;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 ProjectX Testing Dashboard</h1>
+        <p class="subtitle">Comprehensive testing checklist for your demo</p>
+
+        <div id="statusBox" class="status-box waiting">
+            <h2>⚠️ Waiting for Dev Server</h2>
+            <p>Run <code>npm run dev</code> first, then start testing!</p>
+        </div>
+
+        <div class="instructions">
+            <h3>🎯 First Time? Start Here:</h3>
+            <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Install Node.js from <a href="https://nodejs.org" style="color: #FF6A00;">nodejs.org</a></li>
+                <li>Open terminal: <code>cd /Users/abhshek/Myaiproject/projectx-web</code></li>
+                <li>Install: <code>npm install</code></li>
+                <li>Start: <code>npm run dev</code></li>
+                <li>Click "Check Server" button below</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button class="btn" onclick="checkServer()">🔍 Check Server Status</button>
+            <a href="http://localhost:3000" target="_blank" class="btn">🏠 Open Landing Page</a>
+            <a href="http://localhost:3000/kits" target="_blank" class="btn">📦 Open Kits Page</a>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>🌐 Browser Testing</h2>
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Chrome</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Safari</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Firefox</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Edge</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📱 Responsive Testing</h2>
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Mobile (< 768px)</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Tablet (768-1024px)</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Desktop (> 1024px)</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Real mobile device</span></li>
+                </ul>
+                <div class="device-buttons">
+                    <button class="btn btn-outline" onclick="openDevTools()">Open DevTools (F12)</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🧭 Navigation Testing</h2>
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Logo → Home</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Kits link works</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Programs scroll works</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Why ProjectX scroll</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Contact form scroll</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Mobile menu toggle</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>✨ Visual Testing</h2>
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Orange color correct</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Animations smooth</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Typography readable</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Cards aligned</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>No layout breaking</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>⚡ Performance Testing</h2>
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Fast page load</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Smooth scrolling</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>No console errors</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Images load quickly</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📝 Form Testing</h2>
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Name field works</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Email field works</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Message field works</span></li>
+                    <li><input type="checkbox" onchange="updateProgress()"> <span>Submit button visible</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="progress">
+            <h2>Testing Progress</h2>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill">0%</div>
+            </div>
+            <p id="progressText">0 of 26 tests completed</p>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <h2>🎬 Demo Checklist</h2>
+            <ul class="checklist">
+                <li><input type="checkbox" onchange="updateProgress()"> <span>Dev server running</span></li>
+                <li><input type="checkbox" onchange="updateProgress()"> <span>Browser in full-screen</span></li>
+                <li><input type="checkbox" onchange="updateProgress()"> <span>Other tabs closed</span></li>
+                <li><input type="checkbox" onchange="updateProgress()"> <span>Practice demo flow</span></li>
+                <li><input type="checkbox" onchange="updateProgress()"> <span>Prepare talking points</span></li>
+                <li><input type="checkbox" onchange="updateProgress()"> <span>Test mobile view ready</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            const fill = document.getElementById('progressFill');
+            const text = document.getElementById('progressText');
+            
+            fill.style.width = percentage + '%';
+            fill.textContent = percentage + '%';
+            text.textContent = `${checked} of ${total} tests completed`;
+
+            // Save progress to localStorage
+            const checkboxStates = Array.from(checkboxes).map(cb => cb.checked);
+            localStorage.setItem('projectx-testing-progress', JSON.stringify(checkboxStates));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('projectx-testing-progress');
+            if (saved) {
+                const states = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                states.forEach((checked, index) => {
+                    if (checkboxes[index]) {
+                        checkboxes[index].checked = checked;
+                    }
+                });
+                updateProgress();
+            }
+        }
+
+        async function checkServer() {
+            const statusBox = document.getElementById('statusBox');
+            statusBox.innerHTML = '<h2>🔍 Checking server...</h2><p>Please wait...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:3000');
+                if (response.ok) {
+                    statusBox.className = 'status-box ready';
+                    statusBox.innerHTML = `
+                        <h2>✅ Server is Running!</h2>
+                        <p>ProjectX website is live at <a href="http://localhost:3000" target="_blank" style="color: #22c55e; text-decoration: underline;">http://localhost:3000</a></p>
+                        <p style="margin-top: 0.5rem;">You can now start testing!</p>
+                    `;
+                } else {
+                    throw new Error('Server returned error');
+                }
+            } catch (error) {
+                statusBox.className = 'status-box waiting';
+                statusBox.innerHTML = `
+                    <h2>❌ Server Not Running</h2>
+                    <p>Make sure you've run <code>npm run dev</code> in the terminal</p>
+                    <p style="margin-top: 0.5rem;">Check DEMO_GUIDE.md for detailed setup instructions</p>
+                `;
+            }
+        }
+
+        function openDevTools() {
+            alert('Press F12 (or Cmd+Option+I on Mac) to open DevTools\n\nThen click the device toolbar icon (phone/tablet) to test responsive design.');
+        }
+
+        // Load saved progress on page load
+        window.addEventListener('load', () => {
+            loadProgress();
+            checkServer();
+        });
+
+        // Auto-check server every 10 seconds
+        setInterval(checkServer, 10000);
+    </script>
+</body>
+</html>

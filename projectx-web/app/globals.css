@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  height: 100%;
+  scroll-behavior: smooth;
+  background: #0A0A0B; /* px.ink */
+  color: #F5F5F5;
+}
+
+.container-px {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Nice gradient glow for the molten X vibe */
+.px-glow {
+  background: radial-gradient(60% 60% at 50% 10%, rgba(255,106,0,0.25), transparent 60%);
+  filter: blur(30px);
+}
