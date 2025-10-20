@@ -24,13 +24,22 @@ jobs:
     - name: Build
       run: npm run build
     
-    - name: Deploy to iPage via FTP
-      uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
-      with:
-        ftp_host: ftp.theprojectx.co
-        ftp_username: ${{ secrets.IPAGE_FTP_USERNAME }}
-        ftp_password: ${{ secrets.IPAGE_FTP_PASSWORD }}
-        local_source_dir: ./out
-        dist_target_dir: /
-        delete: true
-        exclude: "'^.git/'"
+    - name: Install lftp
+      run: sudo apt-get install lftp
+
+    - name: Deploy to iPage via lftp
+      run: |
+        # Create a netrc file for authentication
+        echo "machine ftp.theprojectx.co
+        login ${{ secrets.IPAGE_FTP_USERNAME }}
+        password ${{ secrets.IPAGE_FTP_PASSWORD }}" > ~/.netrc
+        chmod 600 ~/.netrc
+        
+        # Use lftp to sync the files
+        lftp -c "
+        set ftp:ssl-allow no;
+        set ssl:verify-certificate no;
+        open ftp://ftp.theprojectx.co;
+        lcd ./out;
+        mirror --reverse --delete --verbose
+        "
